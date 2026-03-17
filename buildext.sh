@@ -11,6 +11,8 @@
 # Currently supported projects are:
 #       Name            Compiler        Desc
 #       microwindows    ia16-elf-gcc    Nano-X Graphical Windowing Environment
+#       microwindows_pc98 ia16-elf-gcc  Nano-X Graphical Windowing Environment for PC-98
+#       dcc             ia6-elf-gcc     DCC self-compiling C compiler for ELKS
 #       dflat           ia16-elf-gcc    D-Flat TUI memopad/library
 #       elkirc          ia16-elf-gcc    IRC for ELKS
 #       owc_libc        OpenWatcom      ELKS C Library compiled by OWC
@@ -145,6 +147,34 @@ microwindows()
     echo "Nano-X build complete"
 }
 
+microwindows_pc98()
+{
+    echo "Building Nano-X for PC-98..."
+    cd $TOPDIR/extapps
+    if [ ! -d microwindows ] ; then
+        git clone https://github.com/ghaerr/microwindows.git
+    fi
+    cd microwindows/src
+    git pull
+    make -f Makefile.elks clean
+    CONFIG_ARCH_PC98=y make -f Makefile.elks
+    echo "Nano-X for PC-98 build complete"
+}
+
+dcc()
+{
+    echo "Building DeSmet C Compiler (DCC)..."
+    cd $TOPDIR/extapps
+    if [ ! -d dcc ] ; then
+        git clone https://github.com/ghaerr/dcc
+    fi
+    cd dcc/src
+    git pull
+    make clean
+    make
+    echo "DCC build complete"
+}
+
 dflat()
 {
     echo "Building D-Flat..."
@@ -183,6 +213,7 @@ ngircd_elks()
         git clone https://github.com/parabyte/ngircd-elks
     fi
     cd ngircd-elks
+    rm -f src/*/*.obj ngircd.os2
     git pull
     NGIRCD_DIR=$TOPDIR/extapps/ngircd-elks make -e -f Makefile.owc clean
     NGIRCD_DIR=$TOPDIR/extapps/ngircd-elks make -e -f Makefile.owc
@@ -194,7 +225,7 @@ elkirc()
     echo "Building elkirc..."
     cd $TOPDIR/extapps
     if [ ! -d elkirc ] ; then
-        git clone -b elks https://github.com/ghaerr/elkirc
+        git clone https://github.com/sepen/elkirc
     fi
     cd elkirc
     git pull
@@ -292,6 +323,7 @@ elksmoria()
 make_all()
 {
     microwindows
+    dcc
     dflat
     elkirc
     if [ -n "$WATCOM" ] ; then
@@ -304,7 +336,7 @@ make_all()
         elks_viewer
         gzip
         lua
-        bobcat
+        #bobcat
         kilomacs
         elksmoria
     fi
