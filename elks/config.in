@@ -11,7 +11,8 @@ mainmenu_option next_comment
 		 NECV25	CONFIG_ARCH_NECV25 \
 		 PC-98	CONFIG_ARCH_PC98 \
 		 WonderSwan CONFIG_ARCH_SWAN \
-		 SOLO86	CONFIG_ARCH_SOLO86" IBM-PC
+		 SOLO86	CONFIG_ARCH_SOLO86 \
+		 Breadboard CONFIG_ARCH_BREADBOARD" IBM-PC
 
 	comment 'Platform'
 
@@ -58,6 +59,13 @@ mainmenu_option next_comment
 	elif [ "$CONFIG_ARCH_SWAN" = "y" ]; then
 
 		comment 'Devices'
+		
+	elif [ "$CONFIG_ARCH_BREADBOARD" = "y" ]; then
+
+	       	comment 'Devices'
+
+		define_bool CONFIG_CONSOLE_DIRECT n
+		define_bool CONFIG_CONSOLE_HEADLESS y
 
 	fi
 
@@ -76,7 +84,7 @@ mainmenu_option next_comment
 	bool 'Use INT 1Ch from BIOS for timer'    CONFIG_TIMER_INT1C  n
 
 	if [ "$CONFIG_ARCH_IBMPC" = "y" ] || [ "$CONFIG_ARCH_8018X" = "y" ] || [ "$CONFIG_ARCH_NECV25" = "y" ] \
-	|| [ "$CONFIG_ARCH_SWAN" = "y" ] || [ "$CONFIG_ARCH_SOLO86" = "y" ]; then
+	|| [ "$CONFIG_ARCH_SWAN" = "y" ] || [ "$CONFIG_ARCH_SOLO86" = "y" ] || [ "$CONFIG_ARCH_BREADBOARD" = "y" ]; then
 		bool 'Build kernel as ROM-bootable'   CONFIG_ROMCODE      n
     fi
 

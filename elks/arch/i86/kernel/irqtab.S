@@ -248,6 +248,12 @@ a6:     out     %al,$PIC1_CMD   // Ack on primary controller
 #elif defined(CONFIG_ARCH_SOLO86)
         mov $0x1A, %dx          // Send INT done
         out %al, %dx
+
+#elif defined(CONFIG_ARCH_BREADBOARD)
+        cmp $16, %ax
+        jge was_trap
+        mov $0x20, %al
+        out %al, $0x00
 #endif
 
 was_trap:

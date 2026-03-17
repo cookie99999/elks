@@ -85,6 +85,14 @@
 #define TIMER_IRQ       0  /* logical IRQ number, NOT related to the actual IRQ vector! */
 #endif
 
+#ifdef CONFIG_ARCH_BREADBOARD
+#define TIMER_CMDS_PORT 0x0b
+#define TIMER_DATA_PORT 0x08
+#define TIMER_IRQ 0 /* logical IRQ number, NOT related to the actual IRQ vector! */
+#define PIC1_CMD 0x10
+#define PIC1_DATA 0x11
+#endif
+
 #ifdef CONFIG_ARCH_NECV25
 #define TIMER_IRQ       0  /* logical IRQ number, NOT related to the actual IRQ vector! */
 #endif

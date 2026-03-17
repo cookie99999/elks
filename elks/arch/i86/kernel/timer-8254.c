@@ -51,12 +51,17 @@
 #define TIMER_ENABLE  1
 #endif
 
+#ifdef CONFIG_ARCH_BREADBOARD
+#define TIMER_LO_BYTE (__u8)(0x40)
+#define TIMER_HI_BYTE (__u8)(0x9c)
+#endif
+
 void enable_timer_tick(void)
 {
     /* set the clock frequency */
     outb (TIMER_MODE2, TIMER_CMDS_PORT);
 
-#if defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_SOLO86)
+#if defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_SOLO86) || defined(CONFIG_ARCH_BREADBOARD)
     outb (TIMER_LO_BYTE, TIMER_DATA_PORT);      /* LSB */
     outb (TIMER_HI_BYTE, TIMER_DATA_PORT);      /* MSB */
 #endif

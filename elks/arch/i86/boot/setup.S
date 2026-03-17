@@ -143,6 +143,9 @@ _start:
 	.byte 0x55,0xaa		// sign for ROM-Extension
 	.byte 2*CONFIG_ROM_CHECKSUM_SIZE // space for lengthcode (promsize/512)
 
+#ifdef CONFIG_ARCH_BREADBOARD
+        jmp start_os
+#endif
 	push	%ds
 	xor	%ax,%ax		// DS = 0
 	mov	%ax,%ds
@@ -266,6 +269,19 @@ start_os:
 	// Enable UART serial
 	mov	$0xE0,%al
 	out	%al,$0xB3
+#endif
+
+#ifdef CONFIG_ARCH_BREADBOARD
+        mov $0x80, %al
+        outb %al, $0x03
+        xor %ax, %ax
+        outb %al, $0x01
+        mov $0x0c, %al
+        outb %al, $0x00
+        xor %ax, %ax
+        outb %al, $0x03
+        mov $0x03, %al
+        outb %al, $0x03
 #endif
 
 	push	%cs
@@ -1263,6 +1279,44 @@ putc:	push %bx
 	ret
 
 #endif /* CONFIG_ARCH_8018X*/
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Architecture specific routines for breadboard
+//	Entry points specific for platform setup of SETUP_xxx variables (see config.h)
+//		arch_set_initseg
+//		arch_get_mem
+
+#ifdef CONFIG_ARCH_BREADBOARD
+
+// Return total memory in Kbytes
+arch_get_mem:
+	mov $SETUP_MEM_KBYTES,%ax
+	ret
+
+// Set INITSEG values for breadboard
+// currently hard-coded in config.h
+arch_set_initseg:
+	mov	$INITSEG,%ax
+	mov	%ax,%ds
+	ret
+
+// Write AL to console, save all other registers
+putc:	push %bx
+	push %cx
+	push %dx
+        push %ax
+1:
+        inb $0x05, %al // 16550 LSR
+        and $0x60, %al
+        je 1b
+        pop %ax
+        outb %al, $0x00 // 16550 THR
+	pop %dx
+	pop %cx
+	pop %bx
+	ret
+
+#endif /* CONFIG_ARCH_BREADBOARD*/
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Architecture specific routines for NECV25

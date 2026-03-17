@@ -64,6 +64,10 @@ else
 OBJS += system.o
 endif
 
+ifeq ($(CONFIG_ARCH_BREADBOARD), y)
+OBJS += irq-breadboard.o timer-8254.o reset-stubs.o
+endif
+
 #########################################################################
 # Commands.
 

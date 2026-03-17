@@ -70,6 +70,11 @@ ifeq ($(CONFIG_ARCH_SOLO86), y)
     SERIAL = template
 endif
 
+ifeq ($(CONFIG_ARCH_BREADBOARD), y)
+	CONIO = breadboard
+	SERIAL = template
+endif
+
 ifdef CONFIG_CONSOLE_BIOS
 OBJS += console-bios.o console-bios-asm.o bell-8254.o
 endif
@@ -118,6 +123,9 @@ ifdef CONFIG_ARCH_IBMPC
 endif
 
 ifdef CONFIG_CONSOLE_HEADLESS
+  ifdef CONFIG_ARCH_BREADBOARD
+    OBJS += conio-breadboard.o kbd-poll.o
+  endif
 OBJS += console-headless.o
 endif
 

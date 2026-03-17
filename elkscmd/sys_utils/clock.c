@@ -895,3 +895,15 @@ void do_settime(struct tm *tm)
    ds3231_write(REG_YEAR,  hex_bcd(tm->tm_year));
 }
 #endif
+
+#ifdef CONFIG_ARCH_BREADBOARD /* no rtc */
+void do_gettime(struct tm *tm)
+{
+  return;
+}
+
+void do_settime(struct tm *tm)
+{
+  return;
+}
+#endif

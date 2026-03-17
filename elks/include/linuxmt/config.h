@@ -91,6 +91,22 @@
 #define CONFIG_8018X_EB
 #endif /* CONFIG_ARCH_8018X */
 
+#ifdef CONFIG_ARCH_BREADBOARD
+#define MAX_SERIAL 0
+#define SETUP_VID_COLS 80
+#define SETUP_VID_LINES 25
+#define SETUP_CPU_TYPE CPU_8088
+#define SETUP_MEM_KBYTES 128
+#define SETUP_XMS_KBYTES 0
+#define SETUP_ROOT_DEV 0x600
+#define SETUP_ELKS_FLAGS 0
+#define SETUP_PART_OFFSETLO 0
+#define SETUP_PART_OFFSETHI 0
+#define SYS_CAPS 0
+#define UTS_MACHINE "80C88"
+#define CONFIG_BREADBOARD_FCPU 4000000L
+#endif /* CONFIG_ARCH_BREADBOARD */
+
 #ifdef CONFIG_ARCH_NECV25
 #define SETUP_VID_COLS          80      /* video # columns */
 #define SETUP_VID_LINES         25      /* video # lines */

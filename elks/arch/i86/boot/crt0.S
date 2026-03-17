@@ -91,6 +91,16 @@ early_putchar:
         int   $0x10
         pop   %bp
         ret
+#elif defined(CONFIG_ARCH_BREADBOARD)
+early_putchar:
+1:
+        inb $0x05, %al // 16550 LSR
+        and $0x60, %al
+        je 1b
+        mov   %sp,%bx
+        mov   2(%bx),%al
+        outb  %al,$0x00 // uart thr
+        ret
 #endif
 
 //      Segment beginnings
