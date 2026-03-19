@@ -24,12 +24,13 @@
 /* initialize*/
 void conio_init(void)
 {
-    outb(0x80, UART_LCR); /* enable divisor latch access */
-    outb(0x00, UART_DLH);
-    outb(0x0c, UART_DLL); /* 1.8432MHz / 12 = 9600 baud */
-    outb(0x00, UART_LCR); /* disable divisor latch */
-    outb(0x03, UART_LCR); /* 8n1 no break */
-    outb(0x07, UART_FCR); /* clear and enable fifos */
+  /* Already initialized in setup.S, no need */
+  //outb(0x80, UART_LCR); /* enable divisor latch access */
+  //outb(0x00, UART_DLH);
+  //outb(0x0c, UART_DLL); /* 1.8432MHz / 12 = 9600 baud */
+  //outb(0x00, UART_LCR); /* disable divisor latch */
+  //outb(0x03, UART_LCR); /* 8n1 no break */
+  //outb(0x07, UART_FCR); /* clear and enable fifos */
 }
 
 /*
@@ -46,6 +47,6 @@ int conio_poll(void)
 
 void conio_putc(byte_t c)
 {
-    while((inb(UART_LSR) & 0x60) == 0); /* tx buf empty */
+    while((inb(UART_LSR) & 0x20) == 0); /* tx buf empty */
     outb(c, UART_THR); /* tx buf */
 }

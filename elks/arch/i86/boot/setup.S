@@ -272,6 +272,16 @@ start_os:
 #endif
 
 #ifdef CONFIG_ARCH_BREADBOARD
+        // mask pic in case of warm boot
+        mov $0x13, %al
+        outb %al, $0x10
+        mov $0x08, %al
+        outb %al, $0x11
+        mov $0x01, %al
+        outb %al, $0x11
+        mov $0xff, %al
+        outb %al, $0x11
+        // initialize uart for early printing
         mov $0x80, %al
         outb %al, $0x03
         xor %ax, %ax
@@ -1309,7 +1319,7 @@ putc:	push %bx
         push %ax
 1:
         inb $0x05, %al // 16550 LSR
-        and $0x60, %al
+        and $0x20, %al
         je 1b
         pop %ax
         outb %al, $0x00 // 16550 THR

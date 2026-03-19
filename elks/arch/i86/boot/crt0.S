@@ -95,7 +95,7 @@ early_putchar:
 early_putchar:
 1:
         inb $0x05, %al // 16550 LSR
-        and $0x60, %al
+        and $0x20, %al
         je 1b
         mov   %sp,%bx
         mov   2(%bx),%al
