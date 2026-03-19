@@ -15,6 +15,7 @@
 /* 16550 registers */
 #define UART_RBR 0x00 /* receive buffer register */
 #define UART_THR 0x00 /* transmitter holding register */
+#define UART_FCR 0x02 /* FIFO control register */
 #define UART_LCR 0x03 /* line control register */
 #define UART_LSR 0x05 /* line status register */
 #define UART_DLL 0x00 /* divisor latch low */
@@ -28,6 +29,7 @@ void conio_init(void)
     outb(0x0c, UART_DLL); /* 1.8432MHz / 12 = 9600 baud */
     outb(0x00, UART_LCR); /* disable divisor latch */
     outb(0x03, UART_LCR); /* 8n1 no break */
+    outb(0x07, UART_FCR); /* clear and enable fifos */
 }
 
 /*

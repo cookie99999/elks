@@ -52,8 +52,8 @@
 #endif
 
 #ifdef CONFIG_ARCH_BREADBOARD
-#define TIMER_LO_BYTE (__u8)(0x40)
-#define TIMER_HI_BYTE (__u8)(0x9c)
+#define TIMER_LO_BYTE (__u8)(((5+(40000000L/(HZ)))/10)%256)
+#define TIMER_HI_BYTE (__u8)(((5+(40000000L/(HZ)))/10)/256)
 #endif
 
 void enable_timer_tick(void)

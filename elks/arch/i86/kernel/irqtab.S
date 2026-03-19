@@ -253,7 +253,7 @@ a6:     out     %al,$PIC1_CMD   // Ack on primary controller
         cmp $16, %ax
         jge was_trap
         mov $0x20, %al
-        out %al, $0x00
+        out %al, $PIC1_CMD
 #endif
 
 was_trap:

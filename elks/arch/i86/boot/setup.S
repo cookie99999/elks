@@ -282,6 +282,8 @@ start_os:
         outb %al, $0x03
         mov $0x03, %al
         outb %al, $0x03
+        mov $0x07, %al
+        outb %al, $0x02 // fifos cleared and enabled
 #endif
 
 	push	%cs

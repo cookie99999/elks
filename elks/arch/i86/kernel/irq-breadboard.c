@@ -12,14 +12,13 @@
 #include <linuxmt/types.h>
 
 #include <arch/ports.h>
-#include <arch/8018x.h>
 #include <arch/io.h>
 #include <arch/irq.h>
 
 void initialize_irq(void)
 {
   outb(0x13, PIC1_CMD); /* edge triggered, single PIC */
-  outb(0x08, PIC1_DATA); /* vector offset (could probably do 8 like pc/xt, maybe change */
+  outb(0x08, PIC1_DATA); /* vector offset */
   outb(0x01, PIC1_DATA); /* no nesting+buffer, normal eoi, x86 mode */
   outb(0xff, PIC1_DATA); /* disable all IRQs */
 }
